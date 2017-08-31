@@ -16,6 +16,8 @@ echo "Preparing metadata model"
 mount /dev/cdrom /mnt/
 cp -r /mnt/model/model/* /srv/salt/reclass/
 chown root:root /srv/salt/reclass/*
+chmod -R 644 /srv/salt/reclass/classes/cluster/*
+chmod -R 644 /srv/salt/reclass/classes/system/*
 umount /dev/cdrom
 
 cd /srv/salt/reclass/classes/service
@@ -51,21 +53,25 @@ find /etc/docker/compose/* -type f -print0 | xargs -0 sed -i -e 's/10.20.0.1/'$S
 # update gerrit repos
 rm -rf /srv/glusterfs/jenkins/workspace/git-mirror-downstream-*
 rm /srv/glusterfs/jenkins/.ssh/known_hosts
-export HOME=/root
-git config --global user.email "bootstrap@mirantis.com"
-git config --global user.name "mirantis"
-cd /srv/glusterfs/gerrit/git/mcp-ci/pipeline-library.git
-GIT_WORK_TREE=./ git stash
-GIT_WORK_TREE=./ git remote add origin https://github.com/Mirantis/pipeline-library
-GIT_WORK_TREE=./ git pull origin master -r
-cd /srv/glusterfs/gerrit/git/mk/mk-pipelines.git
-GIT_WORK_TREE=./ git stash
-GIT_WORK_TREE=./ git remote add origin https://github.com/Mirantis/mk-pipelines
-GIT_WORK_TREE=./ git pull origin master -r
-cd /srv/glusterfs/gerrit/git/mk/decapod-pipelines.git
-GIT_WORK_TREE=./ git stash
-GIT_WORK_TREE=./ git remote add origin https://github.com/mateuszlos/decapod-pipelines
-GIT_WORK_TREE=./ git pull origin master -r
+# export HOME=/root
+# git config --global user.email "bootstrap@mirantis.com"
+# git config --global user.name "mirantis"
+# cd /srv/glusterfs/gerrit/git/mcp-ci/pipeline-library.git
+# GIT_WORK_TREE=./ git stash
+# GIT_WORK_TREE=./ git remote add origin https://github.com/Mirantis/pipeline-library
+# GIT_WORK_TREE=./ git pull origin master -r
+# GIT_WORK_TREE=./ git remote remove origin
+# cd /srv/glusterfs/gerrit/git/mk/mk-pipelines.git
+# GIT_WORK_TREE=./ git stash
+# GIT_WORK_TREE=./ git remote add origin https://github.com/Mirantis/mk-pipelines
+# GIT_WORK_TREE=./ git pull origin master -r
+# GIT_WORK_TREE=./ git remote remove origin
+# cd /srv/glusterfs/gerrit/git/mk/decapod-pipelines.git
+# GIT_WORK_TREE=./ git stash
+# GIT_WORK_TREE=./ git remote add origin https://github.com/mateuszlos/decapod-pipelines
+# GIT_WORK_TREE=./ git pull origin master -r
+# GIT_WORK_TREE=./ git remote remove origin
+
 
 
 # update gerrit
